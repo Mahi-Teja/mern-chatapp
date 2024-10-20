@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Conversation = require("./models.conversations");
+const Conversation = require("./models.chats");
 
 const userSchema = mongoose.Schema({
   username: {
@@ -21,7 +21,7 @@ const userSchema = mongoose.Schema({
       type: mongoose.Types.ObjectId,
       ref: Conversation,
       //   // required:true,
-      // unique: true,
+      unique: true,
     },
   ],
 });

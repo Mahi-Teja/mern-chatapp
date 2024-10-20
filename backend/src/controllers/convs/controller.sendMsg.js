@@ -1,4 +1,4 @@
-const Conversation = require("../../models/models.conversations");
+const Chats = require("../../models/models.chats");
 const User = require("../../models/models.users");
 
 const sendMsg = async (req, res) => {
@@ -10,7 +10,7 @@ const sendMsg = async (req, res) => {
   let proceed = false;
 
   if (!chatId) {
-    // create a conversation
+    // create a chats
     try {
       const response = await createChat();
       chatId = response._id;
@@ -33,17 +33,20 @@ const sendMsg = async (req, res) => {
     });
   }
   try {
-    const userChat = Conversation.updateOne(
-      { chatId },
+    const response = await Chats.updateOne(
+      { _id: chatId },
       {
         $push: {
-          messages: { message: message, sender: sxId },
+          messages: {
+            message: message,
+            sender: sxId,
+          },
         },
       }
     );
     return res.json({
       success: true,
-      message: " conversation created and message sent",
+      message: "Message sent",
     });
   } catch (error) {
     console.log(error);
@@ -60,16 +63,16 @@ const createChat = async (req, res) => {
   if (!sxId || !rxId) {
     return res.json({
       success: false,
-      message: "sender or reciever dont exist",
+      message: "Invalid request",
     });
   }
 
   try {
-    const response = await Conversation.create({
-      userId: [sxId, rxId],
+    const response = await Chats.create({
+      members: [sxId, rxId],
     });
     const user = await User.updateOne(
-      { sxId },
+      { _id: sxId },
       {
         $push: {
           chats: response._id,

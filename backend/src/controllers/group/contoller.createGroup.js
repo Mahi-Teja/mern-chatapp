@@ -1,4 +1,4 @@
-const Chat = require("../../models/models.chats");
+const Chat = require("../../models/models.grpChats");
 
 const createGroup = async (req, res) => {
   const groupName = req.body.groupName;

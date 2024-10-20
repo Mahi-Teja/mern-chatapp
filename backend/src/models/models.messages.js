@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Conversation = require("./models.conversations");
+const Conversation = require("./models.chats");
 
 const messageSchema = mongoose.Schema(
   {
@@ -15,7 +15,7 @@ const messageSchema = mongoose.Schema(
     default: [],
     chatId: {
       type: mongoose.Schema.ObjectId,
-      ref: Conversation,
+      ref: "Conversation",
       // required:true,
     },
   },

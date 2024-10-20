@@ -1,32 +1,50 @@
 const mongoose = require("mongoose");
 const User = require("./models.users");
 
-const chatSchema = mongoose.Schema(
+// Chats
+const chatsSchema = mongoose.Schema(
   {
-    chatName: {
-      type: String,
-      // required:true
-      trim: true,
-    },
-    groupChat: {
-      type: Boolean,
-      // required:true
-    },
+    // users in the conersation
     members: [
       {
-        id: {
-          type: mongoose.Schema.ObjectId,
-          ref: User,
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+      },
+    ],
+    // messages in the chats and which user sent it.
+    messages: [
+      {
+        message: {
+          type: String,
+          required: true,
         },
-        isAdmin: {
-          type: Boolean,
+        sender: {
+          type: mongoose.Schema.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now,
         },
       },
     ],
+    // Latest message (to highlight on the ui) and who sent it.(optional)
+    // latestMessage: {
+    //   message: String,
+    //   sender: {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: "User",
+    //   },
+    // },
   },
   { timeStamp: true }
 );
 
-const Chat = mongoose.model("Chat", chatSchema);
+const Chats = mongoose.model("Chats", chatsSchema);
 
-module.exports = Chat;
+module.exports = Chats;
+
+//user: Kunal --> chatss[rahul,krishna...]
+
+// chatss:[kunal-> msg,Rahul->msg]
